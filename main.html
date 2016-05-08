@@ -4,7 +4,12 @@
 </head>
 
 <body>
-    Message: <input type="text" id="inputMessage">
+    <form action="#">
+        User: <input type="text" id="inputUser">
+        <br>
+        Message: <input type="text" id="inputMessage">
+        <p><input type="submit" value="Submit"></p>
+    </form>
     {{# each messages}}
         {{> message}}
     {{/each}}
@@ -15,6 +20,7 @@
     {{# if number}}
         <h2>Number: {{num}}</h2>
     {{/if}}
+    <h2>User: {{user}}</h2>
     <h2>Message: {{text}}</h2>
     {{# if from}}
         <p>from: {{from}}</p>

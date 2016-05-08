@@ -8,11 +8,16 @@ if (Meteor.isClient) {
     })
 
     Template.body.events({
-        "change #inputMessage": function(e, t) {
-            let text = $(e.target).val();
-            $(e.target).val("");
+        "submit form": function(e, t) {
+            let text = $(e.target).find("#inputMessage").val();
+            let user = $(e.target).find("#inputUser").val();
+            $("form > input").val("");
+            if (user === "") {
+                user = "aya";
+            }
             let message = {
                 text,
+                user,
                 from: "db",
                 createdAt: new Date(),
             };
