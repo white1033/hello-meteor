@@ -4,17 +4,15 @@
 </head>
 
 <body>
-    <hr>
-        {{> message number=1 text="Hello Meteor! (m1)"}}
-    <hr>
-        {{> message number=2 text="Hello Meteor! (m2)"}}
-    <hr>
-        {{> message number=3 text="Hello Meteor! (m3)"}}
-    <hr>
+    {{# each messages}}
+        {{> message text=this}}
+    {{/each}}
 </body>
 
 <template name="message">
-    <h2>{{number}}</h2>
-    <h2>{{text}}</h2>
+    <hr>
+    <h2>Number: {{number}}</h2>
+    <h2>Message: {{text}}</h2>
     <p>(by message)</p>
+    <hr>
 </template>
