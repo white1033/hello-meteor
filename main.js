@@ -8,7 +8,9 @@ sampleMessages = [
 
 if (Meteor.isClient) {
     Template.body.helpers({
-        messages: sampleMessages
+        messages() {
+            return Messages.find();
+        }
     })
 }
 
