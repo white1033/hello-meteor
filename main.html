@@ -5,13 +5,13 @@
 
 <body>
     {{# each messages}}
-        {{> message text=this}}
+        {{> message}}
     {{/each}}
 </body>
 
 <template name="message">
     <hr>
-    <h2>Number: {{number}}</h2>
+    <h2>Number: {{num}}</h2>
     <h2>Message: {{text}}</h2>
     <p>(by message)</p>
     <hr>

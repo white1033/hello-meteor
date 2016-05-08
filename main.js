@@ -1,13 +1,13 @@
 if (Meteor.isClient) {
     Template.message.helpers({
-        
+
     })
 
     Template.body.helpers({
         messages: [
-            "Hello Meteor! (m1)",
-            "Hello Meteor! (m2)",
-            "Hello Meteor! (m3)"
+            {text: "Hello Meteor! (m1)", num: 1},
+            {text: "Hello Meteor! (m2)", num: 2},
+            {text: "Hello Meteor! (m3)", num: 4}
         ]
     })
 }
