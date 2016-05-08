@@ -11,7 +11,9 @@
 
 <template name="message">
     <hr>
-    <h2>Number: {{num}}</h2>
+    {{# if number}}
+        <h2>Number: {{num}}</h2>
+    {{/if}}
     <h2>Message: {{text}}</h2>
     <p>(by message)</p>
     <hr>
