@@ -1,24 +1,23 @@
 Messages = new Mongo.Collection("messages");
 
-sampleMessages = [
-    {text: "Hello Meteor! (m1)", from: "db"},
-    {text: "Hello Meteor! (m2)", from: "db"},
-    {text: "Hello Meteor! (m3)", from: "db"}
-]
-
 if (Meteor.isClient) {
     Template.body.helpers({
         messages() {
-            return Messages.find();
+            return Messages.find({}, {sort: {createdAt: -1}});
         }
     })
-}
 
-if (Meteor.isServer) {
-    if (Messages.find().count() === 0) {
-        for (let message of sampleMessages) {
+    Template.body.events({
+        "change #inputMessage": function(e, t) {
+            let text = $(e.target).val();
+            $(e.target).val("");
+            let message = {
+                text,
+                from: "db",
+                createdAt: new Date(),
+            };
             Messages.insert(message);
         }
-    }
+    })
 }
 
