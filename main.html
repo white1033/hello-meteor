@@ -4,11 +4,10 @@
 </head>
 
 <body>
-    <form action="#">
-        User: <input type="text" id="inputUser">
-        <br>
+    {{> loginButtons}}
+    <hr>
+    <form>
         Message: <input type="text" id="inputMessage">
-        <p><input type="submit" value="Submit"></p>
     </form>
     {{# each messages}}
         {{> message}}
