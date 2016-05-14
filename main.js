@@ -24,6 +24,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     Meteor.publish('lastTenMessages', function(limit) {
+        // console.log(this.userId)
         return Messages.find({}, {sort: {createdAt: -1}, limit})
     })
 
