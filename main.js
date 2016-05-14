@@ -1,6 +1,10 @@
 Messages = new Mongo.Collection("messages");
 
 if (Meteor.isClient) {
+    Meteor.startup(function() {
+        Meteor.subscribe('lastTenMessages')
+    })
+
     Template.body.helpers({
         messages() {
             return Messages.find({}, {sort: {createdAt: -1}});
@@ -19,8 +23,8 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-    Meteor.publish(null, function() {
-        return Messages.find()
+    Meteor.publish('lastTenMessages', function() {
+        return Messages.find({}, {sort: {createdAt: -1}, limit: 10})
     })
 
     Meteor.methods({
