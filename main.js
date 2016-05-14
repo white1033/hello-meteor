@@ -19,14 +19,18 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+    Meteor.publish(null, function() {
+        return Messages.find()
+    })
+
     Meteor.methods({
         createdMessage(message) {
             let user = Meteor.userId();
             if (user) {
                 message.user = Meteor.user().emails[0].address;
                 message.createdAt = new Date();
+                Messages.insert(message);
             }
-            Messages.insert(message);
         }
     })
 }
