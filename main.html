@@ -3,10 +3,6 @@
     <title>Hello Meteor!</title>
 </head>
 
-<!-- <body> -->
-<!--     {{> guestBook}} -->
-<!-- </body> -->
-
 <template name="message">
     <hr>
     {{# if number}}
@@ -14,9 +10,7 @@
     {{/if}}
     <h2>User: {{user}}</h2>
     <h2>Message: {{text}}</h2>
-    {{# if from}}
-        <p>from: {{from}}</p>
-    {{/if}}
+    <h2>ChatroomId: {{chatroomId}}</h2>
     <p>(by message)</p>
     <hr>
 </template>
@@ -45,7 +39,17 @@
 
 <template name="chatroom">
     <hr>
-    <h2>{{chatroomName}}</h2>
+    <a href="{{pathFor 'chatroom' _id}}" >
+        <h2>{{chatroomName}}</h2>
+    </a>
     create by: {{user}}
+    <hr>
+</template>
+
+<template name="chatroomDetail">
+    <a href="{{pathFor 'index'}}">Home</a>
+    <h2>{{chatroomId}}</h2>
+    <hr>
+    {{> guestBook}}
     <hr>
 </template>

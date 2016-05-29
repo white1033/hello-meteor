@@ -1,15 +1,26 @@
 Messages = new Mongo.Collection("messages")
 Chatrooms = new Mongo.Collection("chatrooms")
 
-Router.route('/', function() {
-    this.render('home')
+Router.map(function() {
+    this.route('index', {
+        path: '/',
+        template: 'home'
+    })
+
+    this.route('chatroom', {
+        path: '/chatroom/:_id',
+        template: 'chatroomDetail',
+        data: function() {
+            res = {chatroomId: () => this.params._id}
+            return res
+        },
+        waitOn: function() {
+            Meteor.subscribe('chatroomMessages', this.params._id)
+        }
+    })
 })
 
 if (Meteor.isClient) {
-    Meteor.startup(function() {
-        Meteor.subscribe('lastTenMessages', 20)
-    })
-
     Template.guestBook.helpers({
         messages() {
             return Messages.find({}, {sort: {createdAt: -1}})
@@ -19,9 +30,10 @@ if (Meteor.isClient) {
     Template.guestBook.events({
         "submit form": (e, t) => {
             e.preventDefault()
+            chatroomId = Router.current().params._id
             let text = $(e.target).find("#inputMessage").val()
             $("input").val("")
-            let message = {text}
+            let message = {text, chatroomId}
             Meteor.call("createMessage", message)
         }
     })
@@ -46,6 +58,10 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
     Meteor.publish('lastTenMessages', (limit) => {
         return Messages.find({}, {sort: {createdAt: -1}, limit})
+    })
+
+    Meteor.publish('chatroomMessages', function(chatroomId) {
+        return Messages.find({chatroomId})
     })
 
     Meteor.publish(null, () => {
