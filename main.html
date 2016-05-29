@@ -32,6 +32,20 @@
     {{/each}}
 </template>
 
-<template name="layout">
-    <h2>Hello, Layout!</h2>
+<template name="home">
+    {{> loginButtons}}
+    <hr>
+    <form>
+        Create Chatroom: <input type="text" id="createChatroom">
+    </form>
+    {{# each chatrooms}}
+        {{> chatroom}}
+    {{/each}}
+</template>
+
+<template name="chatroom">
+    <hr>
+    <h2>{{chatroomName}}</h2>
+    create by: {{user}}
+    <hr>
 </template>

@@ -1,10 +1,8 @@
 Messages = new Mongo.Collection("messages")
+Chatrooms = new Mongo.Collection("chatrooms")
 
-// Router.configure({
-//     layoutTemplate: 'layout'
-// })
 Router.route('/', function() {
-    this.render('guestBook')
+    this.render('home')
 })
 
 if (Meteor.isClient) {
@@ -19,28 +17,57 @@ if (Meteor.isClient) {
     })
 
     Template.guestBook.events({
-        "submit form": function(e, t) {
+        "submit form": (e, t) => {
             e.preventDefault()
             let text = $(e.target).find("#inputMessage").val()
             $("input").val("")
             let message = {text}
-            Meteor.call("createdMessage", message)
+            Meteor.call("createMessage", message)
+        }
+    })
+
+    Template.home.helpers({
+        chatrooms() {
+            return Chatrooms.find({}, {sort: {createdAt: -1}})
+        }
+    })
+
+    Template.home.events({
+        "submit form": (e, t) => {
+            e.preventDefault()
+            let chatroomName = $(e.target).find("#createChatroom").val()
+            $("input").val("")
+            let chatroom = {chatroomName}
+            Meteor.call("createChatroom", chatroom)
         }
     })
 }
 
 if (Meteor.isServer) {
-    Meteor.publish('lastTenMessages', function(limit) {
+    Meteor.publish('lastTenMessages', (limit) => {
         return Messages.find({}, {sort: {createdAt: -1}, limit})
     })
 
+    Meteor.publish(null, () => {
+        return Chatrooms.find()
+    })
+
     Meteor.methods({
-        createdMessage(message) {
+        createMessage(message) {
             let user = Meteor.userId()
             if (user) {
                 message.user = Meteor.user().emails[0].address
                 message.createdAt = new Date()
                 Messages.insert(message)
+            }
+        },
+
+        createChatroom(chatroom) {
+            let user = Meteor.userId
+            if (user) {
+                chatroom.user = Meteor.user().emails[0].address
+                chatroom.createdAt = new Date()
+                Chatrooms.insert(chatroom)
             }
         }
     })
